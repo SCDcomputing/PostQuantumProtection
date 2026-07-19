@@ -1,5 +1,5 @@
 import unittest
-from quantum_key_gen import generate_quantum_resistant_key
+from QuantumKeyGen import generate_quantum_resistant_key
 
 class TestQuantumKeyGen(unittest.TestCase):
 

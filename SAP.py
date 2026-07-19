@@ -3,9 +3,21 @@ import random
 import sys
 
 def quantum_order_finding(a, N):
-    return r
+    """
+    Classical simulation of quantum order-finding subroutine.
+    In a real quantum computer, this would use quantum phase estimation.
+    This classical version uses trial to approximate the order.
+    """
+    for r in range(1, N):
+        if pow(a, r, N) == 1:
+            return r
+    return None
 
 def shors_algorithm(N):
+    """
+    Classical simulation of Shor's Algorithm for integer factorization.
+    Returns a tuple of factors (p, q) or None if factorization fails.
+    """
     if N % 2 == 0:
         return 2, N // 2
     
@@ -17,7 +29,7 @@ def shors_algorithm(N):
         
     r = quantum_order_finding(a, N)
     
-    if r % 2 != 0:
+    if r is None or r % 2 != 0:
         return None
         
     x = pow(a, r // 2, N)

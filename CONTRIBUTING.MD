@@ -1,4 +1,3 @@
-Here is the text you can copy for your CONTRIBUTING.md file:
 # Contributing to PostQuantumProtection
 Thank you for your interest in contributing to the PostQuantumProtection repository! We welcome all contributions to help secure data against quantum threats.
 ## How to Contribute

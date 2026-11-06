@@ -36,7 +36,48 @@ cd PostQuantumProtection
 
 ### Usage
 
-[Add your specific usage examples here as you build the repo]
+#### Example 1 — Generate a quantum-resistant key
+
+```bash
+python3 QuantumKeyGen.py
+```
+
+This prints a fresh 128-character hex key:
+
+```
+Generated Quantum-Resistant Key: e28f5892ea74c8e7a1194517f051d7c...
+```
+
+Or use it in your own code:
+
+```python
+from QuantumKeyGen import generate_quantum_resistant_key
+
+key = generate_quantum_resistant_key()  # 64 bytes, returned as 128 hex characters
+print(key)
+```
+
+The key is generated with Python's `secrets` module, so it is cryptographically secure random key material — a safe starting point while you migrate to post-quantum algorithms.
+
+Check that it works:
+
+```bash
+python3 -m unittest TestQuantumKey.py -v
+```
+
+#### Example 2 — Factor a number with the Shor's algorithm simulation
+
+```bash
+python3 SAP.py 15
+```
+
+This runs a classical simulation of Shor's algorithm — trial order-finding plus the factoring steps — and prints the factors:
+
+```
+Factors: (5, 3)
+```
+
+Try other composite numbers, for example `python3 SAP.py 21` or `python3 SAP.py 35`. Note this is a teaching simulation that runs on ordinary hardware: it shows how Shor's algorithm breaks RSA-style factoring, but it does not run on a real quantum computer. If it prints `Factors: None`, the random base it picked did not work for that run — just run it again.
 
 ## 📖 Get the Complete Handbook
 

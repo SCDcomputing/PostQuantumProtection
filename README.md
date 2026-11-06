@@ -79,6 +79,47 @@ Factors: (5, 3)
 
 Try other composite numbers, for example `python3 SAP.py 21` or `python3 SAP.py 35`. Note this is a teaching simulation that runs on ordinary hardware: it shows how Shor's algorithm breaks RSA-style factoring, but it does not run on a real quantum computer. If it prints `Factors: None`, the random base it picked did not work for that run — just run it again.
 
+#### Example 3 — Encrypt a message with lattice-based (LWE) cryptography
+
+```bash
+python3 LatticeCrypto.py
+```
+
+This runs a small Regev-style Learning With Errors (LWE) public-key
+encryption demo — the same family of hard lattice problems that real
+post-quantum encryption is built on — and prints the decrypted message:
+
+```
+Lattice-based (LWE) encryption demo - educational only,
+not production cryptography. Real systems use ML-KEM / Kyber.
+Secret dimension: 16, samples: 32, modulus: 257
+Original message:  Hello, lattice!
+Ciphertext bits:   120 (16-element vectors + one value each)
+Decrypted message: Hello, lattice!
+Success!
+```
+
+Or use it in your own code:
+
+```python
+from LatticeCrypto import decrypt_message, encrypt_message, generate_keypair
+
+public_key, secret_key = generate_keypair()
+ciphertexts = encrypt_message(public_key, "Hello, lattice!")
+print(decrypt_message(secret_key, ciphertexts))  # Hello, lattice!
+```
+
+This is an educational demonstration with tiny toy parameters, NOT
+production-grade cryptography — real systems use standardized algorithms
+such as ML-KEM (Kyber, FIPS 203). Never use this demo to protect real
+data.
+
+Check that it works:
+
+```bash
+python3 -m unittest TestLatticeCrypto.py -v
+```
+
 ## 📖 Get the Complete Handbook
 
 This repository is **free and open-source** for developers, security teams, and organizations exploring quantum-resistant cryptography.

@@ -120,6 +120,62 @@ Check that it works:
 python3 -m unittest TestLatticeCrypto.py -v
 ```
 
+#### Example 4 — Agree on a shared secret with Kyber-style key encapsulation
+
+```bash
+python3 MLKEM.py
+```
+
+This runs an ML-KEM-inspired key encapsulation mechanism (KEM) demo —
+the same shape as Kyber (FIPS 203), the standardized post-quantum KEM:
+generate a keypair, encapsulate a shared secret under the public key,
+decapsulate it with the secret key, and show both sides arriving at
+the same secret:
+
+```
+ML-KEM-style key encapsulation demo - educational only,
+not production cryptography. Real systems use ML-KEM / Kyber (FIPS 203).
+Secret dimension: 16, samples: 32, modulus: 257
+Public key:  A[0] = [68, 173, 1, 123, 2, 39, 246, 118, 102, 36, 186, 213, 220, 39, 81, 212]
+             b[0..3] = [89, 138, 27, 22]
+Secret key:  s[0..3] = [24, 45, 68, 120]
+Ciphertext:  128 bit-ciphertexts (16-element vectors + one value each)
+Shared secret (encaps): 52bf7933b44f56803403146e20af74ff6e380686f9cbf4ad32a029734d158f3d
+Shared secret (decaps): 52bf7933b44f56803403146e20af74ff6e380686f9cbf4ad32a029734d158f3d
+Shared secrets match!
+```
+
+The demo uses a fixed seed so the output above is reproducible — run
+it and you will see exactly these values. Real use passes no seed, and
+then the keys, ciphertext, and shared secret are fresh randomness on
+every run.
+
+Or use it in your own code:
+
+```python
+from MLKEM import decaps, encaps, generate_keypair
+
+public_key, secret_key = generate_keypair()
+ciphertext, shared_encaps = encaps(public_key)
+shared_decaps = decaps(secret_key, ciphertext)
+assert shared_encaps == shared_decaps  # same 32-byte shared secret
+```
+
+A tampered ciphertext does not leak the secret: decapsulation
+re-encrypts the recovered message and checks it against the received
+ciphertext, and if they differ it returns an unrelated pseudorandom
+value instead (Kyber's implicit rejection).
+
+This is an educational demonstration with tiny toy parameters, NOT
+production-grade cryptography — real systems use standardized ML-KEM
+(Kyber, FIPS 203). Never use this demo to protect real data.
+
+Check that it works:
+
+```bash
+python3 -m pytest TestMLKEM.py -v
+```
+
 ## 📖 Get the Complete Handbook
 
 This repository is **free and open-source** for developers, security teams, and organizations exploring quantum-resistant cryptography.
